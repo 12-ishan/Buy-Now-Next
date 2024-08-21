@@ -13,7 +13,7 @@ const MyProfile = () => {
 
     return (
         <div>
-            {user ? <div>Welcome, {user.name}</div> : <div>Loading...</div>}
+            {user ? <h1>Profile {user.name}</h1> : <div>Loading...</div>}
         </div>
     );
 };

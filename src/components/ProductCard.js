@@ -10,6 +10,7 @@ const ProductCard = ({ slug }) => {
   const products = useSelector((state) => state.products.products);
   const status = useSelector((state) => state.products.status);
   const error = useSelector((state) => state.products.error);
+  const categorySlug = useSelector((state) => state.products.categorySlug);
 
   useEffect(() => {
     if (slug) {
@@ -37,7 +38,7 @@ const ProductCard = ({ slug }) => {
             <div key={data.id} className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
               <div className="block-4 text-center border">
                 <figure className="block-4-image">
-                  <a href={`shop-single/${data.id}`}>
+                  <a href={`/${categorySlug}/${data.slug}`}>
                   <Image
                     className="img-fluid"
                     src={data.media_name}
@@ -48,9 +49,9 @@ const ProductCard = ({ slug }) => {
                   </a>
                 </figure>
                 <div className="block-4-text p-4">
-                  <h3><a href={`shop-single/${data.id}`}>{data.name}</a></h3>
-                  <p className="mb-0">{data.description || "Finding perfect t-shirt"}</p>
-                  <p className="text-primary font-weight-bold">${data.price || "50"}</p>
+                  <h3><a href={`/${categorySlug}/${data.slug}`}>{data.name}</a></h3>
+                  {/* <p className="mb-0">{data.description || "Finding perfect t-shirt"}</p> */}
+                  <p className="text-primary font-weight-bold">{data.price || "50"}</p>
                 </div>
               </div>
             </div>
