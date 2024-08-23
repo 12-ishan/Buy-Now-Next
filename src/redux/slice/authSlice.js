@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+//import Cookies from 'js-cookie';
 
 const getCsrfToken = async () => {
     try {
@@ -13,7 +13,10 @@ const getCsrfToken = async () => {
 
 export const login = createAsyncThunk('auth/login', async (credentials) => {
     try{
-    const response = await axios.post('http://127.0.0.1:8000/api/v1/customer-login', credentials, { withCredentials: true });
+
+       
+    const response = await axios.post('http://127.0.0.1:8000/api/v1/customer-login', credentials);
+
     return response.data;
     }
     catch(error){
@@ -26,45 +29,27 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
     }
 });
 
-// export const login = createAsyncThunk(
-//     'auth/loginUser',
-//     async (credentials, { rejectWithValue }) => {
-//       try {
-//         const response = await axios.post('http://127.0.0.1:8000/api/v1/customer-login', credentials);
-//         const token = response.data.access_token;
-//         // Set the token in Axios headers
-//         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-//         return { user: response.data.user, token };
-//       } catch (err) {
-//         if (!err.response) {
-//           throw err;
-//         }
-//         return rejectWithValue(err.response.data);
-//       }
-//     }
-//   );
 
 
-// export const login = createAsyncThunk(
-//     'auth/loginUser',
-//     async (credentials, { rejectWithValue }) => {
-//       try {
-//         const response = await axios.post('http://127.0.0.1:8000/api/v1/customer-login', credentials);
-//         return response.data;
-//       } catch (err) {
-//         if (!err.response) {
-//           throw err;
-//         }
-//         return rejectWithValue(err.response.data);
-//       }
-//     }
-//   );
 
-export const fetchProfile = createAsyncThunk('auth/fetchProfile', async () => {
+export const logout = createAsyncThunk('auth/logout', async () => {
     try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/my-profile', {
-            withCredentials: true,
-        });
+        // Retrieve token from local storage
+        const token = localStorage.getItem('token');
+        
+        // Perform the request with the Bearer token and Accept header
+        const response = await axios.post(
+            'http://127.0.0.1:8000/api/v1/logout',
+            {}, // No data to send in the body for logout, so this is an empty object
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                },
+                
+            }
+        );
+        
         console.log(response);
         return response.data;
     } catch (error) {
@@ -78,24 +63,74 @@ export const fetchProfile = createAsyncThunk('auth/fetchProfile', async () => {
 });
 
 
+
+
+
+export const fetchProfile = createAsyncThunk('auth/fetchProfile', async () => {
+    try {
+        // Retrieve token from local storage
+        const token = localStorage.getItem('token');
+        
+        // Perform the request with the Bearer token and Accept header
+        const response = await axios.get('http://127.0.0.1:8000/api/v1/my-profile', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+          //  withCredentials: true, // Ensure credentials (cookies) are sent with the request
+        });
+        
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Failed to fetch profile:', error.response.status, error.response.data);
+        } else {
+            console.error('Failed to fetch profile:', error.message);
+        }
+        throw error;
+    }
+});
+
+// Define your localStorage token key
+const localStorageTokenKey = 'token';
+
+// Fetch token from localStorage
+const initialToken = localStorage.getItem(localStorageTokenKey) || null;
+
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        user: null,
+        token: initialToken !== null ? initialToken : null, // Set token only if it's present,
         status: 'idle',
         error: null,
        // token: null,
     },
-    reducers: {},
+    reducers: {
+        resetToken: (state) => {
+            state.token = null;
+            localStorage.removeItem('token');
+        },
+    },
     extraReducers: (builder) => {
         builder
-            .addCase(login.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                // state.user = action.payload.user;
-                // console.log(state.user);
-                // state.token = action.payload.token;
-                // console.log(state.token);
-            })
+
+        .addCase(login.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.token = action.payload.token;
+
+            localStorage.setItem("token", action.payload.token);
+
+        })
+        .addCase(logout.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.token = '';
+
+            localStorage.removeItem("token");
+
+        })
+
             .addCase(fetchProfile.pending, (state) => {
                 state.status = 'loading';
             })
@@ -109,5 +144,8 @@ const authSlice = createSlice({
             });
     },
 });
+
+// Export the resetToken action so it can be dispatched from components
+export const { resetToken } = authSlice.actions;
 
 export default authSlice.reducer;

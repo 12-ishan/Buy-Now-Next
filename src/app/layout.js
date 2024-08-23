@@ -35,14 +35,14 @@ export default function RootLayout({ children }) {
           </main>
           <Footer/>
           </div>
-            <Script src="../../../assets/js/jquery-3.3.1.min.js"></Script>
-            <Script src="../../../assets/js/jquery-ui.js"></Script>
-            <Script src="../../../assets/js/popper.min.js"></Script>
-            <Script src="../../../assets/js/bootstrap.min.js"></Script>
-            <Script src="../../../assets/js/owl.carousel.min.js"></Script>
-            <Script src="../../../assets/js/jquery.magnific-popup.min.js"></Script>
-            <Script src="../../../assets/js/aos.js"></Script>
-            <Script src="../../../assets/js/main.js"></Script>
+            {/* <Script src="../../../assets/js/jquery-3.3.1.min.js"></Script> */}
+            {/* <Script src="../../../assets/js/jquery-ui.js"></Script> */}
+            {/* <Script src="../../../assets/js/popper.min.js"></Script> */}
+            {/* <Script src="../../../assets/js/bootstrap.min.js"></Script> */}
+            {/* <Script src="../../../assets/js/owl.carousel.min.js"></Script> */}
+            {/* <Script src="../../../assets/js/jquery.magnific-popup.min.js"></Script> */}
+            {/* <Script src="../../../assets/js/aos.js"></Script> */}
+            {/* <Script src="../../../assets/js/main.js"></Script> */}
         </body>
       </html>
       </Provider>
