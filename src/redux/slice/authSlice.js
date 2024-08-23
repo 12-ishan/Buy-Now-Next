@@ -2,11 +2,21 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 //import Cookies from 'js-cookie';
 
+const getCsrfToken = async () => {
+    try {
+      await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie', { withCredentials: true });
+    } catch (error) {
+      console.error('Error retrieving CSRF token:', error);
+      throw error;
+    }
+  };
 
 export const login = createAsyncThunk('auth/login', async (credentials) => {
     try{
+
        
     const response = await axios.post('http://127.0.0.1:8000/api/v1/customer-login', credentials);
+
     return response.data;
     }
     catch(error){
@@ -18,6 +28,7 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
         throw error;
     }
 });
+
 
 
 
@@ -50,6 +61,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
         throw error;
     }
 });
+
 
 
 
@@ -93,6 +105,7 @@ const authSlice = createSlice({
         token: initialToken !== null ? initialToken : null, // Set token only if it's present,
         status: 'idle',
         error: null,
+       // token: null,
     },
     reducers: {
         resetToken: (state) => {
@@ -102,6 +115,7 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+
         .addCase(login.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.token = action.payload.token;
@@ -116,6 +130,7 @@ const authSlice = createSlice({
             localStorage.removeItem("token");
 
         })
+
             .addCase(fetchProfile.pending, (state) => {
                 state.status = 'loading';
             })

@@ -4,7 +4,8 @@ import registerReducer from './slice/registerSlice';
 import productCategoryReducer from './slice/productCategoriesSlice';
 import productsReducer from './slice/productsSlice'; 
 import authReducer from './slice/authSlice';
-import myProfileReducer from './slice/myProfileSlice';
+import productDetailReducer from './slice/productDetailSlice';
+//import myProfileReducer from './slice/myProfileSlice';
 //import authReducer from './slice/authStatusSlice';
 
 const store = configureStore({
@@ -12,7 +13,8 @@ const store = configureStore({
     register: registerReducer,
     productCategory: productCategoryReducer,
     products: productsReducer, 
-    auth: authReducer
+    auth: authReducer,
+    productDetail: productDetailReducer
    
    
   }

@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-//import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Uncomment this
 import { login } from '@/redux/slice/authSlice';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
- const dispatch = useDispatch();
- // const router = useRouter();
+  const dispatch = useDispatch();
+  const router = useRouter(); // Initialize useRouter
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
-};
+    dispatch(login({ email, password }))
+      // .then(() => {
+      //   // Redirect after successful login
+      //   router.push('/my-profile');
+      // })
+      // .catch((error) => {
+      //   // Handle login error
+      //   console.error('Login failed:', error);
+      // });
+  };
 
   return (
     <div className="col-md-6">

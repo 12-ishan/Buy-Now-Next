@@ -30,8 +30,10 @@ const MyProfile = () => {
 
     return (
         <div>
+
           hello this is a restricted page... 
           <p onClick={handleLogout}>Logout</p>
+
         </div>
     );
 };

@@ -22,7 +22,7 @@ const ProductCategories = () => {
         <>
           {categories.map((category) => (
             <li className="active" key={category.slug}>
-              <Link href={`/product/${category.slug}`}>
+              <Link href={`/products/${category.slug}`}>
                 {category.name}
               </Link>
               {/* <ul className="dropdown">
