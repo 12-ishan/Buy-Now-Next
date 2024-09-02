@@ -15,7 +15,10 @@ import ProductCategories from '../ProductCategories';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-function Header() {
+
+function Header({ cartData = [] }) {
+  const totalItems = cartData.length;
+
   return (
     <header className="site-navbar" role="banner">
       <div className="site-navbar-top">
@@ -40,11 +43,11 @@ function Header() {
               <div className="site-top-icons">
                 <ul>
                   <li><Link href='/my-account'><span className="icon icon-person"></span></Link></li>
-                  <li><a href="#"><span className="icon icon-heart-o"></span></a></li>
+                  <li><a ><span className="icon icon-heart-o"></span></a></li>
                   <li>
                     <Link href='/cart' className="site-cart">
                       <span className="icon icon-shopping_cart"></span>
-                      <span className="count">2</span>
+                      <span className="count">{totalItems}</span>
                     </Link>
                   </li> 
                   <li className="d-inline-block d-md-none ml-md-0"><a href="#" className="site-menu-toggle js-menu-toggle"><span className="icon-menu"></span></a></li>

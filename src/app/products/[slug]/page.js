@@ -1,16 +1,19 @@
 
+
 import React from 'react';
 import Breadcrumb from '@/components/layout/breadcrumb';
 import ProductCard from '@/components/ProductCard'
 //import ProductCategories from '@/components/ProductCategories';
-
+export const metadata = {
+  title: 'Products',
+};
 
 const Products = ({ params }) => {
   const { slug } = params;
  
   return (
     <>
-      {/* <Breadcrumb pageName= {<ProductCard/>} /> */}
+      <Breadcrumb pageName= {slug} />
       <div className="site-section">
         <div className="container">
           <div className="row mb-5">
@@ -119,3 +122,4 @@ const Products = ({ params }) => {
 };
 
 export default Products;
+

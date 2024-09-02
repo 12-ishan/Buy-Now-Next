@@ -7,11 +7,13 @@ import Script from 'next/script';
 import Footer from '@/components/layout/Footer';
 import { Provider } from 'react-redux'; 
 import ReactDOM from 'react-dom';
-import store from '../redux/store'; 
+import store from '../redux/store';
+import { useSelector } from 'react-redux'; 
 
 
 
 export default function RootLayout({ children }) {
+
  
   return (
    
@@ -29,22 +31,33 @@ export default function RootLayout({ children }) {
         <body>
         <div className="site-wrap">
       
-          <Header />
+        <HeaderWithStore />
           <main>
             {children} 
           </main>
           <Footer/>
           </div>
-            {/* <Script src="../../../assets/js/jquery-3.3.1.min.js"></Script> */}
-            {/* <Script src="../../../assets/js/jquery-ui.js"></Script> */}
-            {/* <Script src="../../../assets/js/popper.min.js"></Script> */}
-            {/* <Script src="../../../assets/js/bootstrap.min.js"></Script> */}
-            {/* <Script src="../../../assets/js/owl.carousel.min.js"></Script> */}
+          <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive"></Script>
+            {/* <Script src="../../../assets/js/jquery-3.3.1.min.js"></Script>
+            <Script src="../../../assets/js/jquery-ui.js"></Script> */}
+            {/* <Script src="../../../assets/js/popper.min.js"></Script>
+            <Script src="../../../assets/js/bootstrap.min.js"></Script>
+            <Script src="../../../assets/js/owl.carousel.min.js"></Script> */}
             {/* <Script src="../../../assets/js/jquery.magnific-popup.min.js"></Script> */}
-            {/* <Script src="../../../assets/js/aos.js"></Script> */}
-            {/* <Script src="../../../assets/js/main.js"></Script> */}
+            {/* <Script src="../../../assets/js/aos.js"></Script>
+            <Script src="../../../assets/js/main.js"></Script> */}
+            
         </body>
       </html>
       </Provider>
   );
+}
+
+function HeaderWithStore() {
+  const token = useSelector((state) => state.auth.token);
+  const loggedCartData = useSelector((state) => state.loggedInCart.cart) || [];
+  const getGuestCustomer = useSelector((state) => state.cart.cartItems);
+  const cartData = token ? loggedCartData : getGuestCustomer;
+
+  return <Header cartData={cartData} />;
 }

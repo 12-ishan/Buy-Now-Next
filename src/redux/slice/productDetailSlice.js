@@ -3,17 +3,17 @@ import axios from 'axios';
 
 export const fetchProductDetails = createAsyncThunk(
   'product/fetchProductDetails',
-  async (slug, { rejectWithValue }) => {
+  async ({ category, slug }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/v1/product-detail/${slug}`);
-      console.log(response);
+      const response = await axios.get(`http://127.0.0.1:8000/api/v1/product-detail/${category}/${slug}`);
+      
       return response.data.response;
     } catch (error) {
-      
       return rejectWithValue(error.response ? error.response.data : error.message);
     }
   }
 );
+
 
 const productDetailSlice = createSlice({
   name: 'productDetail',
@@ -35,7 +35,6 @@ const productDetailSlice = createSlice({
         state.status = 'succeeded';
         state.singleProduct = action.payload.product.productDetails;
         state.productVariation = action.payload.product.productVariation;
-        console.log(state.productVariation);
         state.attributes = action.payload.product.attributes;
         state.maxPrice = action.payload.product.maxPrice;
       })

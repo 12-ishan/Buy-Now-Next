@@ -5,7 +5,6 @@ export const fetchProductCategories = createAsyncThunk(
   'productCategory/fetchProductCategories',
   async () => {
     const response = await axios.get('http://127.0.0.1:8000/api/v1/product-category');
-    //console.log(response);
     return response.data.categories;
   }
 );

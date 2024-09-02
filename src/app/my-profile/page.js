@@ -6,11 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfile } from '@/redux/slice/authSlice';
 
 import { logout } from '@/redux/slice/authSlice';
+import Breadcrumb from '@/components/layout/breadcrumb';
 
 const MyProfile = () => {
     const dispatch = useDispatch();
 
     const router = useRouter();
+    const customer = useSelector((state) => state.auth.customer);
+    console.log(customer);
     const token = useSelector((state) => state.auth.token); // Get token from the Redux store
 
     useEffect(() => {
@@ -30,11 +33,29 @@ const MyProfile = () => {
 
     return (
         <div>
-
-          hello this is a restricted page... 
-          <p onClick={handleLogout}>Logout</p>
-
+        {customer ? (
+          
+          <>
+    <Breadcrumb pageName="My Profile"/>
+    <div className="site-section">
+    <div className="container">
+      <div className="row">
+        <div className="col-md-12 text-center">
+          <h2 className="display-3 text-black">Welcome, {customer.username}</h2>
+          <p className="lead mb-5"></p>
+          <button className="btn btn-sm btn-primary" onClick={handleLogout}>Logout</button>
         </div>
+      </div>
+    </div>
+  </div>
+  </>
+            // <p>Hello, {customer.username}</p> 
+            // <p onClick={handleLogout}>Logout</p>
+          
+        ) : (
+          <p>Loading profile...</p> 
+        )}
+      </div>
     );
 };
 

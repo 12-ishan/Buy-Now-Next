@@ -3,56 +3,104 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductDetails } from '@/redux/slice/productDetailSlice';
 import Loader from '@/components/layout/Loader';
+import {storeInCart} from '@/redux/slice/cartSlice';
+import { addToCartLoggedIn } from '@/redux/slice/loggedInCartSlice';
+
 
 const ProductPage = ({ params }) => {
-  const { slug } = params;
+  const { category, slug } = params;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductDetails({ category, slug }));
+  }, [dispatch, category, slug]);
+
   const productDetail = useSelector((state) => state.productDetail.singleProduct);
   const productVariation = useSelector((state) => state.productDetail.productVariation);
-  console.log(productVariation);
   const attributes = useSelector((state) => state.productDetail.attributes);
   const maxPrice = useSelector((state) => state.productDetail.maxPrice);
   const status = useSelector((state) => state.productDetail.status);
   const error = useSelector((state) => state.productDetail.error);
 
-  const [selectedPrice, setSelectedPrice] = useState(productDetail.price);
-  console.log(selectedPrice);
+  const token = useSelector((state) => state.auth.token);
+  
+
+  const [selectedOption, setSelectedOption] = useState({});
+  const [selectedPrice, setSelectedPrice] = useState(null);
   const [isPriceSelected, setIsPriceSelected] = useState(false);
-  console.log(isPriceSelected)
-
-  const AttributeSelectHandler = (attributeName, optionId) => {
-    console.log('Attribute:', attributeName);
-    console.log('option:', optionId);
-    const filteredVariations = productVariation.filter(variation =>
-        variation.attribute.some(
-            attr => attr.attribute_name === attributeName && attr.option_id === optionId
-        )
-    );
-
-    console.log(filteredVariations);
-
-    if (filteredVariations.length > 0) {
-        const selectedVariation = filteredVariations[0];
-        setSelectedPrice(selectedVariation.price);
-        setIsPriceSelected(true);
-    }
-};
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    dispatch(fetchProductDetails(slug));
-  }, [slug, dispatch]);
+    if (productVariation && productVariation.length > 0) {
+      const initialSelections = {};
+      const firstVariation = productVariation[0].attribute;
 
-  if (status === 'loading') {
-    return <Loader />;
-  }
+      firstVariation.forEach(attr => {
+        initialSelections[attr.attribute_id] = attr.option_id;
+      });
 
-  if (status === 'failed') {
-    return <p>Error: {error}</p>;
+      setSelectedOption(initialSelections);
+      setSelectedPrice(productVariation[0].price);
+      setIsPriceSelected(true);
+    }
+  }, [productVariation]);
+
+  const AttributeSelectHandler = (attributeId, optionId) => {
+    const updatedSelections = {
+      ...selectedOption,
+      [attributeId]: optionId
+    };
+
+    setSelectedOption(updatedSelections);
+
+    const matchedVariation = productVariation.find(variation =>
+      variation.attribute.every(attr => updatedSelections[attr.attribute_id] === attr.option_id)
+    );
+
+    if (matchedVariation) {
+      setSelectedPrice(matchedVariation.price);
+      setIsPriceSelected(true);
+    } else {
+      setSelectedPrice(null);
+      setIsPriceSelected(false);
+    }
+  };
+
+
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    console.log(newQuantity);
+    if (!isNaN(newQuantity) && newQuantity >= 1) {
+      setQuantity(newQuantity);
+    }
+  };
+  
+  // const handleAddToCart = () => {
+  //   AddToCartHandler(productDetail, quantity);
+  //   router.push('/cart');
+  // };
+  
+  const AddToCartHandler = (productDetail, quantity) => {
+   // console.log(quantity);
+
+  if (token) {
+    dispatch(
+      addToCartLoggedIn({
+        product_id: productDetail.id,
+        quantity,
+        token: token, 
+      })
+    );
+  } else {
+    dispatch(storeInCart({ productDetail, quantity }));
   }
+  };
 
   return (
     <div className="site-section">
       <div className="container">
+        {status == 'loading' && <Loader/>}
+        {status === 'succeeded' && productDetail && (
         <div className="row">
           <div className="col-md-6">
             {productDetail.image && (
@@ -81,12 +129,13 @@ const ProductPage = ({ params }) => {
                         attribute.options.map((option) => (
                           <label key={option.option_id} htmlFor={option.option_id} className="d-flex mr-3 mb-3">
                             <span className="d-inline-block mr-2" style={{ position: 'relative' }}>
-                            <input type="radio" id={`id-${option.option_id}`} name={`attribute-${attribute.attribute_name}`}  onChange={() => AttributeSelectHandler(attribute.attribute_name, option.option_id)}/>
-                              {/* <input
+                              <input
                                 type="radio"
-                                id={option.option_id}
-                                onChange={() => AttributeSelectHandler(option.option_id)}
-                              /> */}
+                                id={`id-${option.option_id}`}
+                                name={`attribute-${attribute.attribute_name}`}
+                                checked={selectedOption[attribute.attribute_id] === option.option_id}
+                                onChange={() => AttributeSelectHandler(attribute.attribute_id, option.option_id)}
+                              />
                             </span>
                             <span className="d-inline-block text-black">{option.option_value}</span>
                           </label>
@@ -102,31 +151,46 @@ const ProductPage = ({ params }) => {
             <div className="mb-5">
               <div className="input-group mb-3" style={{ maxWidth: '120px' }}>
                 <div className="input-group-prepend">
-                  <button className="btn btn-outline-primary js-btn-minus" type="button">
+                  <button className="btn btn-outline-primary js-btn-minus" type="button" onClick={() => {
+                    if (quantity > 1) {
+                      setQuantity(quantity - 1);
+                    }
+                  }}>
                     &minus;
                   </button>
                 </div>
                 <input
-                  type="text"
+                  //type="number"  
                   className="form-control text-center"
                   aria-label="Example text with button addon"
                   aria-describedby="button-addon1"
+                  value={quantity}
+                  onChange={(e) => {
+                   // debugger;
+                   // console.log('Input changed:', e.target.value);
+                    handleQuantityChange(e)}}
                 />
                 <div className="input-group-append">
-                  <button className="btn btn-outline-primary js-btn-plus" type="button">
+                  <button className="btn btn-outline-primary js-btn-plus" type="button" onClick={() => setQuantity(quantity + 1)}>
                     +
                   </button>
                 </div>
               </div>
             </div>
             <p>
-              <a href="cart.html" className="buy-now btn btn-sm btn-primary">
+            <a className="buy-now btn btn-sm btn-primary" onClick={() => AddToCartHandler(productDetail, quantity)}>
                 Add To Cart
               </a>
+              {/* <a className="buy-now btn btn-sm btn-primary" onClick={handleAddToCart}>
+                Add To Cart
+              </a> */}
             </p>
           </div>
         </div>
+         )} 
+         {status === 'failed' && <p>{error.message}</p>} 
       </div>
+              
     </div>
   );
 };
