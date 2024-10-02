@@ -5,7 +5,6 @@ import { storeInCart, removeFromCart } from '@/redux/slice/cartSlice';
 function ProductsInCart() {
   const dispatch = useDispatch();
   const cartItem = useSelector((state) => state.cart.productDetail);
-  console.log(cartItem);
 
 //   useEffect(() => {
 //     if (token) {
@@ -64,7 +63,7 @@ function ProductsInCart() {
             <thead>
               <tr>
                 <th className="product-thumbnail">Image</th>
-                <th className="product-name">Product</th>
+                <th className="product-name text-center align-middle">Product</th>
                 <th className="product-price">Price</th>
                 <th className="product-quantity">Quantity</th>
                 <th className="product-total">Total</th>

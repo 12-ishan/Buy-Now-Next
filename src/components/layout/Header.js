@@ -13,11 +13,23 @@ import '../../../public/assets/fonts/icomoon/style.css';
 import '../../../styles/css/owl.carousel.min.css';
 import ProductCategories from '../ProductCategories';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchCartItems } from '@/redux/slice/loggedInCartSlice';
 
 
 
 function Header({ cartData = [] }) {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
   const totalItems = cartData.length;
+  const manageCount = useSelector((state) => state.loggedInCart.manageCartCount);
+ 
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchCartItems(token));
+    }
+  }, [token, dispatch]);
 
   return (
     <header className="site-navbar" role="banner">
@@ -42,12 +54,12 @@ function Header({ cartData = [] }) {
             <div className="col-6 col-md-4 order-3 order-md-3 text-right">
               <div className="site-top-icons">
                 <ul>
-                  <li><Link href='/my-account'><span className="icon icon-person"></span></Link></li>
+                  <li><Link href={localStorage.getItem('token') ? '/my-profile' : '/my-account'}><span className="icon icon-person"></span></Link></li>
                   <li><a ><span className="icon icon-heart-o"></span></a></li>
                   <li>
                     <Link href='/cart' className="site-cart">
                       <span className="icon icon-shopping_cart"></span>
-                      <span className="count">{totalItems}</span>
+                      <span className="count">{localStorage.getItem('token') ?  manageCount: totalItems}</span>
                     </Link>
                   </li> 
                   <li className="d-inline-block d-md-none ml-md-0"><a href="#" className="site-menu-toggle js-menu-toggle"><span className="icon-menu"></span></a></li>
@@ -89,7 +101,7 @@ function Header({ cartData = [] }) {
             <li><Link href='/customer-service'>Customer Service</Link></li>
             <li><Link href='/sale'>Sale</Link></li>
             <li><Link href='/contact'>Contact</Link></li>
-            <li><Link href='/my-profile'>My Profile</Link></li>
+            <li><Link href={localStorage.getItem('token') ? '/my-profile' : '/my-account'}>My Profile</Link></li>
           </ul>
         </div>
       </nav>

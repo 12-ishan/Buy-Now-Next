@@ -11,6 +11,8 @@ import productDetailReducer from './slice/productDetailSlice';
 import cartReducer from './slice/cartSlice';
 import loggedInCartReducer from './slice/loggedInCartSlice';
 import orderReducer from './slice/orderSlice';
+import couponReducer from './slice/couponSlice';
+import orderDetailsReducer from './slice/orderDetailsSlice';
 //import myProfileReducer from './slice/myProfileSlice';
 
 //import authReducer from './slice/authStatusSlice';
@@ -24,7 +26,9 @@ const store = configureStore({
     productDetail: productDetailReducer,
     cart: cartReducer, 
     loggedInCart: loggedInCartReducer,
-    order: orderReducer
+    order: orderReducer,
+    coupon: couponReducer,
+    orderDetail: orderDetailsReducer
   }
 });
 

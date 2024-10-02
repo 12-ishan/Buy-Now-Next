@@ -14,6 +14,7 @@ function FeaturedProducts() {
             <div className="nonloop-block-3 owl-carousel">
               <div className="item">
                 <div className="block-4 text-center">
+                <img src="../../../assets/images/cloth_1.jpg" alt="Image placeholder" className="img-fluid"/>
                   <figure className="block-4-image">
                     <img src="../../../assets/images/cloth_1.jpg" alt="Image placeholder" className="img-fluid"/>
                   </figure>

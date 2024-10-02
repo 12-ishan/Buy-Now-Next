@@ -20,7 +20,7 @@ const token = useSelector((state) => state.auth.token);
 
 useEffect(() => {
     if (token) {
-      router.push('/my-profile'); // Redirect to the profile page
+      router.push('/my-profile'); 
     }
   }, [token, router]);
 
@@ -33,8 +33,6 @@ useEffect(() => {
            
                 <RegisterForm />
                 <LoginForm />
-             
-            
           </div>
         </div>
       </div>

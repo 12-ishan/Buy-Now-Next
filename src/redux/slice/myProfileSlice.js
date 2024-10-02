@@ -6,6 +6,7 @@ export const fetchProfile = createAsyncThunk('fetchProfile', async (_, thunkAPI)
         const response = await axios.get('http://127.0.0.1:8000/api/v1/my-profile', { withCredentials: true })
         .then(response => console.log(response))
         .catch(error => console.error(error));
+        
         return response.data;
     } catch (error) {
         // Ensure error.response.data is an object with a 'message' property
@@ -29,7 +30,8 @@ const myProfileSlice = createSlice({
             .addCase(fetchProfile.fulfilled, (state, action) => {
                 state.isAuth = 'succeeded';
                 state.customer = action.payload.customer;
-                state.error = null; // Reset error on successful fetch
+               
+                state.error = null; 
             })
             .addCase(fetchProfile.rejected, (state, action) => {
                 state.isAuth = 'failed';

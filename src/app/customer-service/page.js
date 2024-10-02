@@ -10,7 +10,7 @@ function Service() {
         <div className="row">
           {/* First Card */}
           <div className="col-md-4 mb-4">
-            <div className="card border p-3" data-aos="fade-up" data-aos-delay="">
+            <div className="card border p-3" >
               <div className="icon mr-4 align-self-start">
                 <span className="icon-truck"></span>
               </div>
@@ -23,7 +23,7 @@ function Service() {
 
           {/* Second Card */}
           <div className="col-md-4 mb-4">
-            <div className="card border p-3" data-aos="fade-up" data-aos-delay="100">
+            <div className="card border p-3" >
               <div className="icon mr-4 align-self-start">
                 <span className="icon-refresh2"></span>
               </div>
@@ -36,7 +36,7 @@ function Service() {
 
           {/* Third Card */}
           <div className="col-md-4 mb-4">
-            <div className="card border p-3" data-aos="fade-up" data-aos-delay="200">
+            <div className="card border p-3" >
               <div className="icon mr-4 align-self-start">
                 <span className="icon-help"></span>
               </div>
@@ -49,7 +49,7 @@ function Service() {
 
           {/* Fourth Card (Wrap to New Row) */}
           <div className="col-md-4 mb-4">
-            <div className="card border p-3" data-aos="fade-up" data-aos-delay="300">
+            <div className="card border p-3" >
               <div className="icon mr-4 align-self-start">
                 <span className="icon-truck"></span>
               </div>
@@ -60,7 +60,7 @@ function Service() {
             </div>
           </div>
           <div className="col-md-4 mb-4">
-            <div className="card border p-3" data-aos="fade-up" data-aos-delay="300">
+            <div className="card border p-3" >
               <div className="icon mr-4 align-self-start">
                 <span className="icon-truck"></span>
               </div>
@@ -71,7 +71,7 @@ function Service() {
             </div>
           </div>
           <div className="col-md-4 mb-4">
-            <div className="card border p-3" data-aos="fade-up" data-aos-delay="200">
+            <div className="card border p-3" >
               <div className="icon mr-4 align-self-start">
                 <span className="icon-help"></span>
               </div>

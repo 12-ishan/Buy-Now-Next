@@ -28,11 +28,11 @@ export const fetchCartItems = createAsyncThunk(
 
 export const addToCartLoggedIn = createAsyncThunk(
   'loggedInCart/addToCartLoggedIn',
-  async ({ product_id, quantity, token }) => {
+  async ({ product_id, variation_id, quantity, token }) => {
     try {
       const response = await axios.post(
         'http://127.0.0.1:8000/api/v1/cart/add',
-        { product_id, quantity },
+        { product_id, variation_id, quantity },
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -40,6 +40,7 @@ export const addToCartLoggedIn = createAsyncThunk(
           },
         }
       );
+     
 
       return response.data.cart; 
     } catch (error) {
@@ -55,9 +56,10 @@ export const addToCartLoggedIn = createAsyncThunk(
 
 export const removeFromCart = createAsyncThunk(
     'loggedInCart/removeFromCart',
-    async ({cartItemId, token}) => {  
+    async ({id, token}) => { 
+     
       try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/v1/cart/remove/${cartItemId}`, {
+        const response = await axios.delete(`http://127.0.0.1:8000/api/v1/cart/remove/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
@@ -77,8 +79,8 @@ export const removeFromCart = createAsyncThunk(
 
 
 
-  export const subtractItemFromCart = createAsyncThunk(
-    'loggedInCart/subtractItemFromCart',
+  export const updateCart = createAsyncThunk(
+    'loggedInCart/updateCart',
     async ({ productDetail, quantity, token }) => {  
       try {
       
@@ -87,7 +89,7 @@ export const removeFromCart = createAsyncThunk(
           quantity: quantity
         };
   
-        const response = await axios.post('http://127.0.0.1:8000/api/v1/cart/subtract', payload, {
+        const response = await axios.post('http://127.0.0.1:8000/api/v1/cart/update', payload, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
@@ -114,8 +116,11 @@ const loggedInCartSlice = createSlice({
   initialState: {
     cart: [],
     totalAmount: 0,
+    manageCartCount: 0,
     status: 'idle',
     error: null,
+    loadingMessage: '',
+  successMessage: '',
   },
   reducers: { },
   extraReducers: (builder) => {
@@ -126,8 +131,19 @@ const loggedInCartSlice = createSlice({
       .addCase(fetchCartItems.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.cart = action.payload; 
+       
+        state.loadingMessage = '';
+        state.successMessage = 'Added to cart!';
+        
+        state.manageCartCount = state.cart.length;
+      
+        
+        // state.totalAmount = state.cart.reduce((total, item) => {
+        //   return total + item.product.price * item.quantity;
+        // }, 0);
         state.totalAmount = state.cart.reduce((total, item) => {
-          return total + item.product.price * item.quantity;
+          const price = item.selected_variation && item.selected_variation.price ? item.selected_variation.price : item.product.price;
+          return total + price * item.quantity;
         }, 0);
       })
       .addCase(fetchCartItems.rejected, (state, action) => {
@@ -138,23 +154,28 @@ const loggedInCartSlice = createSlice({
       .addCase(addToCartLoggedIn.pending, (state) => {
         state.status = 'loading';
       })
+       
       .addCase(addToCartLoggedIn.fulfilled, (state, action) => {
+        
         state.status = 'succeeded';
         state.cart = action.payload; 
+     
+        state.manageCartCount = (state.manageCartCount) + 1;
+        
       })
       .addCase(addToCartLoggedIn.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
       builder
-      .addCase(subtractItemFromCart.pending, (state) => {
+      .addCase(updateCart.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(subtractItemFromCart.fulfilled, (state, action) => {
+      .addCase(updateCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.cart = action.payload; 
       })
-      .addCase(subtractItemFromCart.rejected, (state, action) => {
+      .addCase(updateCart.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
@@ -165,6 +186,7 @@ const loggedInCartSlice = createSlice({
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.cartData = action.payload; 
+        
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.status = 'failed';

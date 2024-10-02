@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductsByCategory } from '../redux/slice/productsSlice';
 import Loader from './layout/Loader'; 
 import Image from 'next/image';
+import Link from 'next/link';
 
 const ProductCard = ({ slug }) => {
   const dispatch = useDispatch();
@@ -35,10 +36,10 @@ const ProductCard = ({ slug }) => {
       {status === 'succeeded' && (
         products.length > 0 ? (
           products.map((data) => (
-            <div key={data.id} className="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+            <div key={data.id} className="col-sm-6 col-lg-4 mb-4" >
               <div className="block-4 text-center border">
                 <figure className="block-4-image">
-                  <a href={`/${categorySlug}/${data.slug}`}>
+                  <Link href={`/${categorySlug}/${data.slug}`}>
                   <Image
                     className="img-fluid"
                     src={data.media_name}
@@ -46,12 +47,12 @@ const ProductCard = ({ slug }) => {
                     width={300} 
                     height={300} 
                 />
-                  </a>
+                  </Link>
                 </figure>
                 <div className="block-4-text p-4">
-                  <h3><a href={`/${categorySlug}/${data.slug}`}>{data.name}</a></h3>
+                  <h3><Link href={`/${categorySlug}/${data.slug}`}>{data.name}</Link></h3>
                   {/* <p className="mb-0">{data.description || "Finding perfect t-shirt"}</p> */}
-                  <p className="text-primary font-weight-bold">{data.price || "50"}</p>
+                  <p className="text-primary font-weight-bold">&#8377;{data.price || "50"}</p>
                 </div>
               </div>
             </div>

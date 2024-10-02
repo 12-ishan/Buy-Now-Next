@@ -4,18 +4,18 @@ import Breadcrumb from '@/components/layout/breadcrumb'
 import ProductsInCart from '@/components/ProductsInCart';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
+import CouponForm from '@/components/CouponForm';
 
 // export const metadata = {
 //   title: 'Cart',
 // };
 
 function Cart() {
-
   const totalAmountOfLoggedInCustomer = useSelector((state) => state.loggedInCart.totalAmount);
   const totalAmountOfGuestCustomer = useSelector((state) => state.cart.totalAmount);
   const token = useSelector((state) => state.auth.token);
-
   const CartTotalAmount = token ? totalAmountOfLoggedInCustomer : totalAmountOfGuestCustomer;
+  const coupon = useSelector((state) => state.coupon);
 
   return (
     <>
@@ -35,6 +35,10 @@ function Cart() {
               </div>
             </div>
             <div className="row">
+            <label className="text-black h4" htmlFor="coupon">Coupon</label>
+            <CouponForm/>
+            </div>
+            {/* <div className="row">
               <div className="col-md-12">
                 <label className="text-black h4" htmlFor="coupon">Coupon</label>
                 <p>Enter your coupon code if you have one.</p>
@@ -45,7 +49,7 @@ function Cart() {
               <div className="col-md-4">
                 <button className="btn btn-primary btn-sm">Apply Coupon</button>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="col-md-6 pl-5">
             <div className="row justify-content-end">
@@ -60,16 +64,25 @@ function Cart() {
                     <span className="text-black">Subtotal</span>
                   </div>
                   <div className="col-md-6 text-right">
-                    <strong className="text-black">${CartTotalAmount}</strong>
+                    <strong className="text-black">&#8377;{CartTotalAmount}</strong>
                   </div>
+                </div>
+                <div className="row mb-5">
+                  <div className="col-md-6">
+                    <span className="text-black">Discount</span>
+                  </div>
+                  <div className="col-md-6 text-right">
+                    <strong className="text-black">&#8377;{coupon.amount}</strong>
+                  </div>  
                 </div>
                 <div className="row mb-5">
                   <div className="col-md-6">
                     <span className="text-black">Total</span>
                   </div>
                   <div className="col-md-6 text-right">
-                    <strong className="text-black">${CartTotalAmount}</strong>
+                    <strong className="text-black">&#8377;{CartTotalAmount - coupon.amount}</strong>
                   </div>
+                  
                 </div>
 
                 <div className="row">

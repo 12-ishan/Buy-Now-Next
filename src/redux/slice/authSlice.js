@@ -16,7 +16,6 @@ export const login = createAsyncThunk('auth/login', async (credentials) => {
 
        
     const response = await axios.post('http://127.0.0.1:8000/api/v1/customer-login', credentials);
-   // console.log(response);
 
     return response.data;
     }
@@ -79,7 +78,6 @@ export const fetchProfile = createAsyncThunk('auth/fetchProfile', async () => {
             },
           //  withCredentials: true, // Ensure credentials (cookies) are sent with the request
         });
-        
         return response.data;
     } catch (error) {
         if (error.response) {
@@ -102,6 +100,7 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: {
         customer: {},
+        orders: {},
         token: initialToken !== null ? initialToken : null, // Set token only if it's present,
         status: 'idle',
         error: null,
@@ -119,7 +118,6 @@ const authSlice = createSlice({
         .addCase(login.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.customer = action.payload.customer;
-            console.log(state.customer);
             state.token = action.payload.token;
 
             localStorage.setItem("token", action.payload.token);
@@ -138,7 +136,7 @@ const authSlice = createSlice({
             })
             .addCase(fetchProfile.fulfilled, (state, action) => {
                 state.customer = action.payload.customer;
-                console.log(state.customer);
+                state.orders = action.payload.orders;
                 state.status = 'succeeded';
             })
             .addCase(fetchProfile.rejected, (state, action) => {

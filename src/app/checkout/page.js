@@ -1,11 +1,13 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useRouter } from 'next/navigation';
 import { syncCart } from '@/redux/slice/cartSlice';
 import { placeOrder, storePayment } from '@/redux/slice/orderSlice'; 
 import BillingDetailsForm from '@/components/BillingDetailsForm';
 import Link from 'next/link';
+import CouponForm from '@/components/CouponForm';
+import Breadcrumb from '@/components/layout/breadcrumb';
 
 function CheckoutPage() {
     const dispatch = useDispatch();
@@ -16,8 +18,9 @@ function CheckoutPage() {
     const totalAmountOfLoggedInCustomer = useSelector((state) => state.loggedInCart.totalAmount);
     const totalAmountOfGuestCustomer = useSelector((state) => state.cart.totalAmount);
     const orderStatus = useSelector((state) => state.order);
-    const sessionId = localStorage.getItem('session_id') || null;
     const [isPaymentCompleted, setIsPaymentCompleted] = useState(false);
+    const coupon = useSelector((state) => state.coupon);
+    const sessionId = localStorage.getItem('session_id') || null; 
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -36,9 +39,10 @@ function CheckoutPage() {
     useEffect(() => {
         if (!token) {
             const storedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
-            dispatch(syncCart(storedCart, sessionId));
+            console.log(storedCart)
+            dispatch(syncCart(storedCart));
         }
-    }, [dispatch, token, sessionId]);
+    }, [token]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,7 +63,7 @@ function CheckoutPage() {
             cart_items: cartData.map((item) => ({
                 product_id: item.product_id || item.id,
                 quantity: item.quantity,
-                price: item.product_price,
+                price:   item.product_price || (item.product.price && item.selected_variation ? item.selected_variation.price : item.product.price),
             })),
             total_amount: cartTotalAmount,
             session_id: sessionId,
@@ -113,19 +117,25 @@ function CheckoutPage() {
             };
             loadRazorpayScript();
         }
-    }, [orderStatus.order_id, isPaymentCompleted, cartTotalAmount, cartData, formData, dispatch, router]);
+    }, [orderStatus.order_id]);
     
 
     return (
+        <>
+        <Breadcrumb pageName="Checkout"/>
         <div className="site-section">
             <div className="container">
+            {!token && (
                 <div className="row mb-5">
                     <div className="col-md-12">
+                       
                         <div className="border p-4 rounded" role="alert">
                             Returning customer? <Link href="/my-account">Click here</Link> to login
                         </div>
+                        
                     </div>
                 </div>
+            )}
                 <div className="row">
                     <div className="col-md-6 mb-5 mb-md-0">
                         <h2 className="h3 mb-3 text-black">Billing Details</h2>
@@ -140,29 +150,8 @@ function CheckoutPage() {
                         <div className="row mb-5">
                             <div className="col-md-12">
                                 <h2 className="h3 mb-3 text-black">Coupon Code</h2>
-                                <div className="p-3 p-lg-5 border">
-                                    <label htmlFor="c_code" className="text-black mb-3">
-                                        Enter your coupon code if you have one
-                                    </label>
-                                    <div className="input-group w-75">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="c_code"
-                                            placeholder="Coupon Code"
-                                            aria-label="Coupon Code"
-                                            aria-describedby="button-addon2"
-                                        />
-                                        <div className="input-group-append">
-                                            <button
-                                                className="btn btn-primary btn-sm"
-                                                type="button"
-                                                id="button-addon2"
-                                            >
-                                                Apply
-                                            </button>
-                                        </div>
-                                    </div>
+                                <div className="p-3  border">
+                                    <CouponForm/>
                                 </div>
                             </div>
                         </div>
@@ -181,12 +170,45 @@ function CheckoutPage() {
                                             {cartData.length > 0 ? (
                                                 cartData.map((item) => (
                                                     <tr key={item.product_id || item.id}>
-                                                        <td>
-                                                            {item.product_name || item.product.name}
-                                                            <strong className="mx-2">x</strong>
-                                                            {item.quantity}
-                                                        </td>
-                                                        <td>{item.product_price * item.quantity || item.product.price * item.quantity}</td>
+                                                      <td>
+                                                        {item.product_name || item.product.name}
+                                                        (
+                                                            {item.attributes && 
+                                                        Object.keys(item.attributes)
+                                                        .filter((key) => !isNaN(key))
+                                                        .map((key, index) => (
+                                                            <span key={index}>
+                                                            <span>{item.attributes[key].attribute_name}:</span>{" "}
+                                                            {item.attributes[key].option_name}
+                                                            </span>
+                                                        ))
+
+                                                        }
+                                                        <>
+                                                            
+                                                                {item.selected_variation && (
+                                                                    <> 
+                                                                    (
+                                                                    {Object.keys(item.selected_variation)
+                                                                        .filter(key => !isNaN(key))
+                                                                        .map((key, index) => (
+                                                                        <span key={index}>
+                                                                            {item.selected_variation[key].attribute_name}: {item.selected_variation[key].option_name}
+                                                                            {index < Object.keys(item.selected_variation).filter(key => !isNaN(key)).length - 1 && ', '}
+                                                                        </span>
+                                                                        ))}
+                                                                    )
+                                                                    </>
+                                                                )}
+                                                            
+                                                        </>
+                                                        )
+                                                        
+                                                        <strong className="mx-2">x</strong>
+                                                        {item.quantity}
+                                                    </td>
+                             
+                                                        <td>&#8377;{item.product_price * item.quantity || (item.product.price && item.selected_variation ? item.selected_variation.price : item.product.price) * item.quantity}</td>
                                                     </tr>
                                                 ))
                                             ) : (
@@ -198,14 +220,20 @@ function CheckoutPage() {
                                                 <td className="text-black font-weight-bold">
                                                     <strong>Cart Subtotal</strong>
                                                 </td>
-                                                <td className="text-black">{cartTotalAmount}</td>
+                                                <td className="text-black">&#8377;{cartTotalAmount}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="text-black font-weight-bold">
+                                                    <strong>Discount</strong>
+                                                </td>
+                                                <td className="text-black">&#8377;{coupon.amount}</td>
                                             </tr>
                                             <tr>
                                                 <td className="text-black font-weight-bold">
                                                     <strong>Order Total</strong>
                                                 </td>
                                                 <td className="text-black font-weight-bold">
-                                                    <strong>{cartTotalAmount}</strong>
+                                                    <strong>&#8377;{cartTotalAmount - coupon.amount}</strong>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -227,6 +255,7 @@ function CheckoutPage() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

@@ -5,7 +5,7 @@ function About() {
   return (
     <>
    <Breadcrumb pageName="About"/>
-    <div className="site-section border-bottom" data-aos="fade">
+    <div className="site-section border-bottom" >
       <div className="container">
         <div className="row mb-5">
           <div className="col-md-6">
@@ -32,7 +32,7 @@ function About() {
       </div>
     </div>
 
-    <div className="site-section border-bottom" data-aos="fade">
+    <div className="site-section border-bottom" >
       <div className="container">
         <div className="row justify-content-center mb-5">
           <div className="col-md-7 site-section-heading text-center pt-4">
@@ -102,10 +102,10 @@ function About() {
     </div>
   
 
-    <div className="site-section site-section-sm site-blocks-1 border-0" data-aos="fade">
+    <div className="site-section site-section-sm site-blocks-1 border-0" >
       <div className="container">
         <div className="row">
-          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="">
+          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4"  >
             <div className="icon mr-4 align-self-start">
               <span className="icon-truck"></span>
             </div>
@@ -114,7 +114,7 @@ function About() {
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
             </div>
           </div>
-          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
+          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" >
             <div className="icon mr-4 align-self-start">
               <span className="icon-refresh2"></span>
             </div>
@@ -123,7 +123,7 @@ function About() {
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
             </div>
           </div>
-          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
+          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4"  >
             <div className="icon mr-4 align-self-start">
               <span className="icon-help"></span>
             </div>

@@ -1,20 +1,20 @@
 'use client'
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // Import from next/navigation
+import { useRouter } from 'next/navigation'; 
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfile } from '@/redux/slice/authSlice';
 
 import { logout } from '@/redux/slice/authSlice';
 import Breadcrumb from '@/components/layout/breadcrumb';
+import ProfileTabs from '@/components/layout/ProfileTabs';
 
 const MyProfile = () => {
     const dispatch = useDispatch();
 
     const router = useRouter();
     const customer = useSelector((state) => state.auth.customer);
-    console.log(customer);
-    const token = useSelector((state) => state.auth.token); // Get token from the Redux store
+    const token = useSelector((state) => state.auth.token); 
 
     useEffect(() => {
         if (!token) {
@@ -35,22 +35,10 @@ const MyProfile = () => {
         <div>
         {customer ? (
           
-          <>
-    <Breadcrumb pageName="My Profile"/>
-    <div className="site-section">
-    <div className="container">
-      <div className="row">
-        <div className="col-md-12 text-center">
-          <h2 className="display-3 text-black">Welcome, {customer.username}</h2>
-          <p className="lead mb-5"></p>
-          <button className="btn btn-sm btn-primary" onClick={handleLogout}>Logout</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  </>
-            // <p>Hello, {customer.username}</p> 
-            // <p onClick={handleLogout}>Logout</p>
+    <>
+         <Breadcrumb pageName="My Profile"/>
+         <ProfileTabs  handleLogout={handleLogout}/>
+     </>
           
         ) : (
           <p>Loading profile...</p> 

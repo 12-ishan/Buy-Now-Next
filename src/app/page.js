@@ -11,7 +11,7 @@ export const metadata = {
 function Home() {
   return (
     <>
-     <div className="site-blocks-cover"  style={{ backgroundImage: 'url(../../../assets/images/hero_1.jpg)' }} data-aos="fade">
+     <div className="site-blocks-cover"  style={{ backgroundImage: 'url(../../../assets/images/hero_1.jpg)' }} >
       <div className="container">
         <div className="row align-items-start align-items-md-center justify-content-end">
           <div className="col-md-5 text-center text-md-left pt-5 pt-md-0">
@@ -64,7 +64,7 @@ function Home() {
     <div className="site-section site-blocks-2">
       <div className="container">
         <div className="row">
-          <div className="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+          <div className="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" >
             <a className="block-2-item" href="#">
               <figure className="image">
                 <img src="../../../assets/images/women.jpg" alt="" className="img-fluid"/>
@@ -75,7 +75,7 @@ function Home() {
               </div>
             </a>
           </div>
-          <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
+          <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" >
             <a className="block-2-item" href="#">
               <figure className="image">
                 <img src="../../../assets/images/children.jpg" alt="" className="img-fluid"/>
@@ -86,7 +86,7 @@ function Home() {
               </div>
             </a>
           </div>
-          <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
+          <div className="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" >
             <a className="block-2-item" href="#">
               <figure className="image">
                 <img src="../../../assets/images/men.jpg" alt="" className="img-fluid"/>
