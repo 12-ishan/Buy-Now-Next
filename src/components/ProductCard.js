@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductsByCategory } from '../redux/slice/productsSlice';
+import { fetchProductsByCategory, resetProducts } from '../redux/slice/productsSlice';
 import Loader from './layout/Loader'; 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,17 +9,43 @@ import Link from 'next/link';
 const ProductCard = ({ slug }) => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products);
+  const categorySlug = useSelector((state) => state.products.categorySlug);
   const status = useSelector((state) => state.products.status);
   const error = useSelector((state) => state.products.error);
-  const categorySlug = useSelector((state) => state.products.categorySlug);
+  const currentPage = useSelector((state) => state.products.currentPage);
+  const lastPage = useSelector((state) => state.products.lastPage);
+  const [loadingMore, setLoadingMore] = useState(false); 
 
   useEffect(() => {
-    if (slug) {
-      dispatch(fetchProductsByCategory(slug));
-    }
+   
+    dispatch(resetProducts());
+    dispatch(fetchProductsByCategory({ slug, page: 1 }));
   }, [slug, dispatch]);
 
-  if (status === 'loading') {
+  useEffect(() => {
+   
+    const handleScroll = () => {
+     
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && currentPage < lastPage && !loadingMore) {
+       
+        setLoadingMore(true);
+       
+        dispatch(fetchProductsByCategory({ slug, page: currentPage + 1 }))
+          .then(() => {
+            setLoadingMore(false); 
+          });
+      }
+    };
+
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [currentPage, lastPage, dispatch, slug, loadingMore]);
+
+  if (status === 'loading' && !loadingMore) {
     return <Loader />;
   }
 
@@ -36,22 +62,21 @@ const ProductCard = ({ slug }) => {
       {status === 'succeeded' && (
         products.length > 0 ? (
           products.map((data) => (
-            <div key={data.id} className="col-sm-6 col-lg-4 mb-4" >
+            <div key={data.id} className="col-sm-6 col-lg-4 mb-4">
               <div className="block-4 text-center border">
                 <figure className="block-4-image">
-                  <Link href={`/${categorySlug}/${data.slug}`}>
-                  <Image
-                    className="img-fluid"
-                    src={data.media_name}
-                    alt={data.name}
-                    width={300} 
-                    height={300} 
-                />
+                  <Link href={`/product/${categorySlug}/${data.slug}`}>
+                    <Image
+                      className="img-fluid"
+                      src={data.media_name}
+                      alt={data.name}
+                      width={300} 
+                      height={300} 
+                    />
                   </Link>
                 </figure>
                 <div className="block-4-text p-4">
-                  <h3><Link href={`/${categorySlug}/${data.slug}`}>{data.name}</Link></h3>
-                  {/* <p className="mb-0">{data.description || "Finding perfect t-shirt"}</p> */}
+                  <h3><Link href={`/product/${categorySlug}/${data.slug}`}>{data.name}</Link></h3>
                   <p className="text-primary font-weight-bold">&#8377;{data.price || "50"}</p>
                 </div>
               </div>
@@ -61,7 +86,8 @@ const ProductCard = ({ slug }) => {
           <p>No products available.</p>
         )
       )}
-      
+     
+      {loadingMore && <Loader />}
     </div>
   );
 };

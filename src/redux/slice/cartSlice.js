@@ -3,11 +3,17 @@ import axios from 'axios';
 
 
 const loadCartFromLocalStorage = () => {
+
+  // if (typeof window === 'undefined') {
+  //   return { cartItems: [], totalAmount: 0, sessionId: null }; // Fallback for server-side
+  // }
+
   const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
   const totalAmount = JSON.parse(localStorage.getItem('totalAmount')) || 0;
   const sessionId = localStorage.getItem('session_id') || null;
   return { cartItems, totalAmount, sessionId };
 };
+
 
 
 export const syncCart = createAsyncThunk(

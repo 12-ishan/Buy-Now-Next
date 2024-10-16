@@ -1,5 +1,6 @@
 
-//import FeaturedProducts from '@/components/FeaturedProducts';
+import FeaturedProducts from '@/components/FeaturedProducts';
+import HomePageHeader from '@/components/HomePageHeader';
 import React from 'react';
 
 
@@ -11,56 +12,9 @@ export const metadata = {
 function Home() {
   return (
     <>
-     <div className="site-blocks-cover"  style={{ backgroundImage: 'url(../../../assets/images/hero_1.jpg)' }} >
-      <div className="container">
-        <div className="row align-items-start align-items-md-center justify-content-end">
-          <div className="col-md-5 text-center text-md-left pt-5 pt-md-0">
-            <h1 className="mb-2">Finding Your Perfect Shoes</h1>
-            <div className="intro-text text-center text-md-left">
-              <p className="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla. </p>
-              <p>
-                <a href="#" className="btn btn-sm btn-primary">Shop Now</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+     <HomePageHeader/>
 
-    {/* <div className="site-section site-section-sm site-blocks-1">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="">
-            <div className="icon mr-4 align-self-start">
-              <span className="icon-truck"></span>
-            </div>
-            <div className="text">
-              <h2 className="text-uppercase">Free Shipping</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
-            <div className="icon mr-4 align-self-start">
-              <span className="icon-refresh2"></span>
-            </div>
-            <div className="text">
-              <h2 className="text-uppercase">Free Returns</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
-            <div className="icon mr-4 align-self-start">
-              <span className="icon-help"></span>
-            </div>
-            <div className="text">
-              <h2 className="text-uppercase">Customer Support</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> */}
-
+    
     <div className="site-section site-blocks-2">
       <div className="container">
         <div className="row">
@@ -102,7 +56,7 @@ function Home() {
     </div>
 
 
-    <div className="site-section block-3 site-blocks-2 bg-light">
+    {/* <div className="site-section block-3 site-blocks-2 bg-light">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-7 site-section-heading text-center pt-4">
@@ -176,9 +130,10 @@ function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
 
-    {/* <FeaturedProducts/> */}
+    <FeaturedProducts/>
+
 
 
     <div className="site-section block-8">

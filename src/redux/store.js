@@ -13,6 +13,12 @@ import loggedInCartReducer from './slice/loggedInCartSlice';
 import orderReducer from './slice/orderSlice';
 import couponReducer from './slice/couponSlice';
 import orderDetailsReducer from './slice/orderDetailsSlice';
+import searchReducer from './slice/searchSlice';
+import generalSettingsReducer from './slice/generalSettingsSlice';
+import landingPagesReducer from './slice/landingPagesSlice';
+import productsFilterReducer from './slice/productsFilterSlice';
+import contactReducer from './slice/contactSlice';
+import wishListReducer from './slice/wishListSlice';
 //import myProfileReducer from './slice/myProfileSlice';
 
 //import authReducer from './slice/authStatusSlice';
@@ -28,7 +34,13 @@ const store = configureStore({
     loggedInCart: loggedInCartReducer,
     order: orderReducer,
     coupon: couponReducer,
-    orderDetail: orderDetailsReducer
+    orderDetail: orderDetailsReducer,
+    search: searchReducer,
+    generalSettings: generalSettingsReducer,
+    landingPage: landingPagesReducer,
+    filterProducts: productsFilterReducer,
+    contact: contactReducer,
+    wishList: wishListReducer
   }
 });
 

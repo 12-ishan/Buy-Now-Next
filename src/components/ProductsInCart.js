@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCartItems, removeFromCart,   updateCart } from '@/redux/slice/loggedInCartSlice';
@@ -6,6 +6,7 @@ import { removeFromCartForGuestCustomer, updateGuestCart } from '@/redux/slice/c
 import Loader from './layout/Loader';
 
 function ProductsInCart() {
+  
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const loggedCartData = useSelector((state) => state.loggedInCart.cart) || [];

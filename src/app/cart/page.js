@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import React from 'react'
 import Breadcrumb from '@/components/layout/breadcrumb'
 import ProductsInCart from '@/components/ProductsInCart';
@@ -11,6 +11,7 @@ import CouponForm from '@/components/CouponForm';
 // };
 
 function Cart() {
+
   const totalAmountOfLoggedInCustomer = useSelector((state) => state.loggedInCart.totalAmount);
   const totalAmountOfGuestCustomer = useSelector((state) => state.cart.totalAmount);
   const token = useSelector((state) => state.auth.token);

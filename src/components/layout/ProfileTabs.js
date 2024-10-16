@@ -80,7 +80,7 @@ const ProfileTabs = ({ handleLogout }) => {
                 orders.map((order) => (
                   <tr key={ order.id }>
                     <td className="text-center"> 
-                      {order.created_at}  
+                    {new Date(order.created_at).toLocaleString()}  
                     </td>
                     <td className="text-center">
                     {order.order_status} 

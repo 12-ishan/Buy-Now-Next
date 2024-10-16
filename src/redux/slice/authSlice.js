@@ -94,6 +94,7 @@ const localStorageTokenKey = 'token';
 
 // Fetch token from localStorage
 const initialToken = localStorage.getItem(localStorageTokenKey) || null;
+//const initialToken = typeof window !== 'undefined' ? localStorage.getItem(localStorageTokenKey) : null;
 
 
 const authSlice = createSlice({

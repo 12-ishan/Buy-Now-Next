@@ -5,78 +5,78 @@ function Service() {
   return (
     <>
      <Breadcrumb pageName="Customer Service"/>
-    <div className="site-section site-section-sm site-blocks-1">
-      <div className="container">
-        <div className="row">
+    <div class="site-section site-section-sm site-blocks-1">
+      <div class="container">
+        <div class="row">
           {/* First Card */}
-          <div className="col-md-4 mb-4">
-            <div className="card border p-3" >
-              <div className="icon mr-4 align-self-start">
-                <span className="icon-truck"></span>
+          <div class="col-md-4 mb-4">
+            <div class="card border p-3" >
+              <div class="icon mr-4 align-self-start">
+                <span class="icon-truck"></span>
               </div>
-              <div className="text">
-                <h2 className="text-uppercase">Free Shipping</h2>
+              <div class="text">
+                <h2 class="text-uppercase">Free Shipping</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
               </div>
             </div>
           </div>
 
           {/* Second Card */}
-          <div className="col-md-4 mb-4">
-            <div className="card border p-3" >
-              <div className="icon mr-4 align-self-start">
-                <span className="icon-refresh2"></span>
+          <div class="col-md-4 mb-4">
+            <div class="card border p-3" >
+              <div class="icon mr-4 align-self-start">
+                <span class="icon-refresh2"></span>
               </div>
-              <div className="text">
-                <h2 className="text-uppercase">Free Returns</h2>
+              <div class="text">
+                <h2 class="text-uppercase">Free Returns</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
               </div>
             </div>
           </div>
 
           {/* Third Card */}
-          <div className="col-md-4 mb-4">
-            <div className="card border p-3" >
-              <div className="icon mr-4 align-self-start">
-                <span className="icon-help"></span>
+          <div class="col-md-4 mb-4">
+            <div class="card border p-3" >
+              <div class="icon mr-4 align-self-start">
+                <span class="icon-help"></span>
               </div>
-              <div className="text">
-                <h2 className="text-uppercase">Customer Support</h2>
+              <div class="text">
+                <h2 class="text-uppercase">Customer Support</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
               </div>
             </div>
           </div>
 
           {/* Fourth Card (Wrap to New Row) */}
-          <div className="col-md-4 mb-4">
-            <div className="card border p-3" >
-              <div className="icon mr-4 align-self-start">
-                <span className="icon-truck"></span>
+          <div class="col-md-4 mb-4">
+            <div class="card border p-3" >
+              <div class="icon mr-4 align-self-start">
+                <span class="icon-truck"></span>
               </div>
-              <div className="text">
-                <h2 className="text-uppercase">Free Shipping</h2>
+              <div class="text">
+                <h2 class="text-uppercase">Free Shipping</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
               </div>
             </div>
           </div>
-          <div className="col-md-4 mb-4">
-            <div className="card border p-3" >
-              <div className="icon mr-4 align-self-start">
-                <span className="icon-truck"></span>
+          <div class="col-md-4 mb-4">
+            <div class="card border p-3" >
+              <div class="icon mr-4 align-self-start">
+                <span class="icon-truck"></span>
               </div>
-              <div className="text">
-                <h2 className="text-uppercase">Free Shipping</h2>
+              <div class="text">
+                <h2 class="text-uppercase">Free Shipping</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
               </div>
             </div>
           </div>
-          <div className="col-md-4 mb-4">
-            <div className="card border p-3" >
-              <div className="icon mr-4 align-self-start">
-                <span className="icon-help"></span>
+          <div class="col-md-4 mb-4">
+            <div class="card border p-3" >
+              <div class="icon mr-4 align-self-start">
+                <span class="icon-help"></span>
               </div>
-              <div className="text">
-                <h2 className="text-uppercase">Customer Support</h2>
+              <div class="text">
+                <h2 class="text-uppercase">Customer Support</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
               </div>
             </div>
